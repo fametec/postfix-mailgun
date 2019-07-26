@@ -6,11 +6,11 @@ services:
 #
 # MAILGUN
 #
-  relay-calviva:
+  relay-mailgun:
     build: .
     image: fametec/postfix-mailgun:latest
     restart: unless-stopped
-    container_name: relay-calviva
+    container_name: relay-mailgun
     ports:
      - "30025:25"
     environment:

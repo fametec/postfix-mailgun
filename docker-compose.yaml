@@ -1,0 +1,18 @@
+version: '3.2'
+#
+### Services
+#
+services:
+#
+# MAILGUN
+#
+  relay-calviva:
+    build: .
+    image: fametec/postfix-mailgun:latest
+    restart: unless-stopped
+    container_name: relay-calviva
+    ports:
+     - "30025:25"
+    environment:
+     MAILGUN_USER: postmaster@xxxxxxxxxxxxxxxx
+     MAILGUN_PASS: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

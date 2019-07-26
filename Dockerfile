@@ -15,7 +15,7 @@ RUN { \
 	echo 'mydestination = localhost.localdomain, localhost' ; \
 	echo 'relayhost = [smtp.mailgun.org]:587' ; \
 	echo 'smtp_sasl_auth_enable = yes' ; \
-	echo 'smtp_sasl_password_maps = static:'$MAILGUN_USER':'$MAILGUN_PASS ; \
+	echo 'smtp_sasl_password_maps = static:MAILGUN_USER:MAILGUN_PASS' ; \
 	echo 'smtp_sasl_security_options = noanonymous' ; \
 	echo ; \
 	echo '# TLS support' ; \
@@ -32,6 +32,8 @@ RUN { \
 RUN { \
 	echo '#!/bin/bash' ; \
 	echo ; \
+	echo 'sed -i s/MAILGUN_USER/$MAILGUN_USER/g /etc/postfix/main.cf' ; \
+	echo 'sed -i s/MAILGUN_PASS/$MAILGUN_PASS/g /etc/postfix/main.cf' ; \
 	echo 'postfix start' ; \
 	echo 'tail -f /var/log/maillog' ; \
 	echo ; \

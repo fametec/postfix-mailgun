@@ -11,6 +11,7 @@ RUN yum -y install postfix cyrus-sasl-plain mailx
 
 RUN { \
 	echo ; \
+	echo 'inet_interfaces = all' ; \
 	echo '#Set the relayhost' ; \
 	echo 'mydestination = localhost.localdomain, localhost' ; \
 	echo 'relayhost = [smtp.mailgun.org]:587' ; \
@@ -30,17 +31,21 @@ RUN { \
 
 
 RUN { \
-	echo '#!/bin/bash' ; \
-	echo ; \
-	echo 'sed -i s/MAILGUN_USER/$MAILGUN_USER/g /etc/postfix/main.cf' ; \
-	echo 'sed -i s/MAILGUN_PASS/$MAILGUN_PASS/g /etc/postfix/main.cf' ; \
-	echo 'postfix start' ; \
-	echo 'tail -f /var/log/maillog' ; \
-	echo ; \
+        echo '#!/bin/bash' ; \
+        echo ; \
+        echo 'sed -i s/MAILGUN_USER/$MAILGUN_USER/g /etc/postfix/main.cf' ; \
+        echo 'sed -i s/MAILGUN_PASS/$MAILGUN_PASS/g /etc/postfix/main.cf' ; \
+        echo 'postfix start' ; \
+        echo ; \
+        echo 'while true; do' ;\
+        echo '  mailq ' ; \
+        echo '  sleep 10' ; \
+        echo 'done' ; \
+        echo ; \
     } > /entrypoint.sh && chmod +x /entrypoint.sh
 
-RUN ln -sf /dev/stdout /var/log/maillog
 
 EXPOSE 25
+
 
 CMD [ "/entrypoint.sh" ]

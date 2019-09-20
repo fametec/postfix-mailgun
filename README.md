@@ -3,7 +3,8 @@
     docker run --rm -d --name postfix \
     -e MAILGUN_USER=postmaster@domain \
     -e MAILGUN_PASS=xxxxxxxxx \
-    fametec/postfix 
+    -e MAILGUN_RELAYHOST=smtp.mailgun.org \
+    fametec/postfix-mailgun:latest
 
 # DOCKER-COMPOSER
 
@@ -25,3 +26,4 @@
         environment:
          MAILGUN_USER: postmaster@XXXXXXXXXXXXXXXX
          MAILGUN_PASS: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+         MAILGUN_RELAYHOST: smtp.mailgun.org

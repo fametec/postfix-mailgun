@@ -6,6 +6,11 @@ ENV MAILGUN_USER postmaster@xxxxxxxxxxxxxxxxxxx
 
 ENV MAILGUN_PASS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+ENV MAILGUN_RELAYHOST smtp.mailgun.org
+# US = smtp.mailgun.org
+# EU = smtp.eu.mailgun.org 
+
+
 RUN yum -y install postfix cyrus-sasl-plain mailx
 
 
@@ -14,7 +19,7 @@ RUN { \
 	echo 'inet_interfaces = all' ; \
 	echo '#Set the relayhost' ; \
 	echo 'mydestination = localhost.localdomain, localhost' ; \
-	echo 'relayhost = [smtp.mailgun.org]:587' ; \
+	echo 'relayhost = [MAILGUN_RELAYHOST]:587' ; \
 	echo 'smtp_sasl_auth_enable = yes' ; \
 	echo 'smtp_sasl_password_maps = static:MAILGUN_USER:MAILGUN_PASS' ; \
 	echo 'smtp_sasl_security_options = noanonymous' ; \
@@ -35,7 +40,8 @@ RUN { \
         echo ; \
         echo 'sed -i s/MAILGUN_USER/$MAILGUN_USER/g /etc/postfix/main.cf' ; \
         echo 'sed -i s/MAILGUN_PASS/$MAILGUN_PASS/g /etc/postfix/main.cf' ; \
-        echo 'postfix start' ; \
+        echo 'sed -i s/MAILGUN_RELAYHOST/$MAILGUN_RELAYHOST/g /etc/postfix/main.cf' ; \
+	echo 'postfix start' ; \
         echo ; \
         echo 'while true; do' ;\
         echo '  mailq ' ; \
@@ -46,6 +52,5 @@ RUN { \
 
 
 EXPOSE 25
-
 
 CMD [ "/entrypoint.sh" ]

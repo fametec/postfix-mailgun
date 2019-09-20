@@ -1,4 +1,4 @@
-# RUN
+# run
 
     docker run --rm -d --name postfix \
     -e MAILGUN_USER=postmaster@domain \
@@ -6,7 +6,7 @@
     -e MAILGUN_RELAYHOST=smtp.mailgun.org \
     fametec/postfix-mailgun:latest
 
-# DOCKER-COMPOSER
+# docker-compose
 
     version: '3.2'
     #
@@ -27,3 +27,9 @@
          MAILGUN_USER: postmaster@XXXXXXXXXXXXXXXX
          MAILGUN_PASS: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
          MAILGUN_RELAYHOST: smtp.mailgun.org
+
+ # testing
+
+    echo "Email Test" | mail -s "This is a simple test" contato@fametec.com.br
+ 
+ 
